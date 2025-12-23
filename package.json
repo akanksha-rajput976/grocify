@@ -12,6 +12,7 @@
     "axios": "^1.13.2",
     "bcryptjs": "^3.0.3",
     "framer-motion": "^12.23.26",
+    "lucide-react": "^0.562.0",
     "mongoose": "^9.0.2",
     "motion": "^12.23.26",
     "next": "16.0.10",
