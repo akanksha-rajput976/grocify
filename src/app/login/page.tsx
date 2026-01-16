@@ -1,5 +1,5 @@
 "use client"
-import { ArrowLeft, Eye, EyeOff, Key, Leaf, Loader2, Lock, LogIn, Mail, User } from 'lucide-react'
+import { ArrowLeft, DivideSquare, Eye, EyeOff, Key, Leaf, Loader2, Lock, LogIn, Mail, User } from 'lucide-react'
 import React, { use, useState } from 'react'
 import { motion } from 'motion/react'
 import Image from 'next/image';
@@ -22,10 +22,10 @@ function Login() {
         setLoading(true);
         try{
            await signIn('credentials',{
-            redirect:false,
             email,
             password
            }); 
+             router.push('/');
               setLoading(false);
         }catch(error){
             console.log(error);
@@ -56,9 +56,10 @@ function Login() {
        <input
          type="text"
          placeholder="Your Email"
-         className="w-full border border-gray-300 rounded-xl py-3 pl-10 pr-4 text-gray-800 focus:outline-none focus:ring-2
-         focus:ring-green-500"
+         className="w-full border border-gray-300 rounded-xl py-3 pl-10 pr-4 text-gray-800 focus:ring-2
+         focus:ring-green-500 focus:outline-none"
           onChange={(e)=>setEmail(e.target.value)}
+          value={email}
          />
     </div>
     <div className='relative'>
@@ -89,16 +90,28 @@ function Login() {
         OR
         <span className='flex-1 h-px bg-gray-200'></span>
     </div>
-    <button className='w-full flex items-center justify-center gap-3 border border-gray-300
+    <div className='w-full flex items-center justify-center gap-3 border border-gray-300
      hover:bg-gray-50 py-3 rounded-xl text-gray-700 font-medium transition-all duration-200'
-      onClick={()=>signIn("google")}>
+      onClick={()=>signIn("google",{callbackUrl:"/"})}>
       <Image src={googleImage} alt="Google" width={20} height={20} /> 
         Continue with Google 
-    </button>
+    </div>
     </motion.form>
-     <p className='cursor-pointer text-gray-600 mt-6 text-sm flex items-center gap-1' onClick={()=>router.push("/register")}>Want to create an account?<LogIn className='w-4 h-4'/><span className='text-green-600'>Sign up</span></p>
+     <p className='cursor-pointer text-gray-600 mt-6 text-sm flex items-center
+      gap-1' onClick={()=>router.push("/register")}>Want to create an account?
+      <LogIn className='w-4 h-4'/><span className='text-green-600'>Sign up</span></p>
         </div>
   )
 }
 
 export default Login
+
+
+
+
+
+
+
+
+
+

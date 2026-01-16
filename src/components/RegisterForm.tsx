@@ -23,10 +23,12 @@ function RegisterForm({previousStep}:propType) {
           const result= await axios.post('/api/auth/register',{
             name,email,password
           });
-          console.log(result.data);
+            router.push('/login');
             setLoading(false);
-        } catch(error){
-            console.log("Registration error:",error);
+        } catch(error:any){
+           console.log("Registration error:", error.response?.data);
+            alert(error.response?.data?.message || "Registration failed");
+           // console.log("Registration error:",error);
             setLoading(false);
         }
     }
@@ -62,6 +64,7 @@ function RegisterForm({previousStep}:propType) {
          className="w-full border border-gray-300 rounded-xl py-3 pl-10 pr-4 text-gray-800 focus:outline-none focus:ring-2
          focus:ring-green-500"
           onChange={(e)=>setName(e.target.value)}
+          value={name}
          />
     </div>
        <div className='relative'>
@@ -69,9 +72,10 @@ function RegisterForm({previousStep}:propType) {
        <input
          type="text"
          placeholder="Your Email"
-         className="w-full border border-gray-300 rounded-xl py-3 pl-10 pr-4 text-gray-800 focus:outline-none focus:ring-2
-         focus:ring-green-500"
+         className="w-full border border-gray-300 rounded-xl py-3 pl-10 pr-4 text-gray-800 focus:ring-2
+         focus:ring-green-500 focus:outline-none"
           onChange={(e)=>setEmail(e.target.value)}
+          value={email}
          />
     </div>
     <div className='relative'>
@@ -82,6 +86,7 @@ function RegisterForm({previousStep}:propType) {
          className="w-full border border-gray-300 rounded-xl py-3 pl-10 pr-4 text-gray-800 focus:outline-none focus:ring-2
          focus:ring-green-500"
           onChange={(e)=>setPassword(e.target.value)}
+          value={password}
          />
          {showPassword ? <EyeOff className='absolute right-3 top-3.5 w-5 h-5 text-gray-500 cursor-pointer' onClick={()=>setShowPassword(false)}/> : 
          <Eye className='absolute right-3 top-3.5 w-5 h-5 text-gray-500 cursor-pointer' onClick={()=>setShowPassword(true)} />}
@@ -102,14 +107,17 @@ function RegisterForm({previousStep}:propType) {
         OR
         <span className='flex-1 h-px bg-gray-200'></span>
     </div>
-    <button className='w-full flex items-center justify-center gap-3 border border-gray-300
+    <div className='w-full flex items-center justify-center gap-3 border border-gray-300
      hover:bg-gray-50 py-3 rounded-xl text-gray-700 font-medium transition-all duration-200'
-      onClick={()=>signIn("google")}>
+      onClick={()=>signIn("google",{callbackUrl:"/"})}>
       <Image src={googleImage} alt="Google" width={20} height={20} /> 
         Continue with Google 
-    </button>
+    </div>
     </motion.form>
-     <p className='cursor-pointer text-gray-600 mt-6 text-sm flex items-center gap-1' onClick={()=>router.push("/login")}>Already have an account?<LogIn className='w-4 h-4'/><span className='text-green-600'>Sign in</span></p>
+     <p className='cursor-pointer text-gray-600 mt-6 text-sm flex items-center
+      gap-1' onClick={()=>router.push("/login")}>Already have an account?
+      <LogIn className='w-4 h-4'/><span className='text-green-600'>Sign in
+        </span></p>
         </div>
   )
 }
