@@ -1,11 +1,12 @@
 'use client'
 
-import { ArrowLeft, PlusCircle, Upload } from 'lucide-react'
+import { ArrowLeft, Loader, PlusCircle, Upload } from 'lucide-react'
 import Link from 'next/link'
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useState } from 'react'
 import {motion} from "motion/react"
 import { set } from 'mongoose'
 import Image from 'next/image'
+import axios from 'axios'
 
 const categories=[
      "fruits & vegetables",
@@ -32,6 +33,7 @@ function AddGrocery() {
     const[category,setCategory]=useState("")
     const[preview,setPreview]=useState<string|null>()
     const[unit,setUnit]=useState("")
+    const[loading,setLoading]=useState(false)
     const[backendImage,setBackendImage]=useState<File| null>()
     const[price,setPrice]=useState("")
     const handleImageChange=(e:ChangeEvent<HTMLInputElement>)=>{
@@ -40,6 +42,26 @@ function AddGrocery() {
         const file=files[0];
         setBackendImage(file);
         setPreview(URL.createObjectURL(file));
+    }
+    const handleSubmit=async(e:FormEvent)=>{
+        try{
+            e.preventDefault();
+            setLoading(true);
+            const formData=new FormData();
+            formData.append("name",name);
+            formData.append("category",category);
+            formData.append("unit",unit);
+            formData.append("price",price);
+            if(backendImage){
+                formData.append("image",backendImage);
+            }
+            const result=await axios.post("/api/admin/add-grocery",formData,)
+            console.log(result.data);
+            setLoading(false);
+        } catch(error){
+            console.log(error);
+            setLoading(false);
+        }
     }
   return (
     <div className='min-h-screen flex items-center justify-center bg-linear-to-br from-green-50 to-white py-16 px-4 relative'>
@@ -61,7 +83,7 @@ function AddGrocery() {
                 <p className='text-gray-500 mt-2 text-sm text-center'>Fill in the details below to add a new grocery item.</p>
                 </div>
 
-         <form className='flex flex-col gap-6 w-full' >
+         <form className='flex flex-col gap-6 w-full' onSubmit={handleSubmit} >
             <div>
                 <label htmlFor="name" className='block text-gray-700 font-medium mb-1'>Grocery Name
                     <span className='text-red-500'>*</span>
@@ -80,7 +102,7 @@ function AddGrocery() {
                     onChange={(e)=>setCategory(e.target.value)}>
                         <option value="">Select Category</option>
                         {categories.map(cat=>(
-                            <option value={cat}>{cat}</option>
+                            <option key={cat} value={cat}>{cat}</option>
                         ))}
                     </select>
                 </div>
@@ -92,7 +114,7 @@ function AddGrocery() {
                     value={unit}>
                         <option value="">Select Unit</option>
                         {units.map(unit=>(
-                            <option value={unit}>{unit}</option>
+                            <option key={unit} value={unit}>{unit}</option>
                         ))}
                     </select>
                 </div>
@@ -117,6 +139,17 @@ function AddGrocery() {
                 {preview && <Image src={preview} alt="image" width={100} height={100} 
                 className='rounded-xl shadow-md border border-gray-200 object-cover'/>}
             </div>
+            <motion.button
+                whileHover={{scale:1.02}}
+                whileTap={{scale:0.9}}
+                disabled={loading}
+                className='mt-4 w-full bg-linear-to-r from-green-500 to-green-700
+                 text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl disabled:opacity-60
+                 transition-all flex items-center justify-center gap-2'
+                >
+                    {loading?<Loader className='w-5 h-5 animate-spin'/>:"Add Grocery"}
+                
+            </motion.button>
          </form>
         </motion.div>
     </div>

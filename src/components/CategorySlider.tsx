@@ -1,0 +1,51 @@
+import { Apple, Cake, Coffee, Cookie, Fish, Heart, Home, IceCream, Milk, Wheat } from 'lucide-react'
+import React from 'react'
+import { motion } from 'motion/react'
+
+function CategorySlider() {
+    const categories=[
+            {id: 1, name: "Fruits & Vegetables",icon: Apple, color:"bg-green-100"},
+            {id: 2, name: "Dairy & Eggs",icon: Milk, color:"bg-blue-100"},
+            {id: 3, name: "Rice, Atta & Grains",icon: Wheat, color:"bg-yellow-100"},
+            {id: 4, name: "Frozen Foods",icon: IceCream, color:"bg-purple-100"},
+            {id: 5, name: "Meat & Seafood",icon: Fish, color:"bg-red-100"},
+            {id: 6, name: "Personal Care",icon: Heart, color:"bg-pink-100"},
+            {id: 7, name: "Household Supplies",icon: Home, color:"bg-gray-100"},
+            {id: 8, name: "Bakery",icon: Cake, color:"bg-orange-100"},
+            {id: 9, name: "Beverages & Drinks",icon: Coffee, color:"bg-cyan-100"},
+            {id: 10, name: "Snacks & Biscuits",icon: Cookie, color:"bg-amber-100"},  
+       
+    ]
+  return (
+    <motion.div
+    className='w-[90%] md:w-[80%] mx-auto mt-10 relative'
+    initial={{opacity:0,y:50}}
+    whileInView={{opacity:1,y:0}}
+    transition={{duration:0.6}}
+    viewport={{once:false,amount:0.5}}
+    >
+        <h2 className='text-2xl md:text-3xl font-bold text-green-700 mb-6 text-center'>Shop by Category</h2>
+        <div className='flex gap-6 overflow-x-auto px-10 pb-4 scrollbar-hide scroll-smooth'>
+
+            {categories.map((cat)=> {  
+                const Icon = cat.icon;
+                return (
+                    <motion.div
+                        key={cat.id}
+                        className={`min-w-37.5 md:min-w-45 flex flex-col items-center justify-center rounded-2xl $
+                            {cat.color} shadow-md hover:shadow-xl transition-all p-4 cursor-pointer`}
+                            >
+                       <div className='flex flex-col items-center justify-center p-5'>
+                        <Icon className="w-10 h-10 text-green-700 mb-3" />
+                        <p className="text-center text-sm md:text-base font-semibold text-gray-700">{cat.name}</p>
+                          </div>
+                          <button></button>
+                    </motion.div>
+                )
+            })}
+        </div>
+    </motion.div>
+  )
+}
+
+export default CategorySlider
