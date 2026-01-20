@@ -7,6 +7,7 @@ import { motion } from 'motion/react';
 import Image from 'next/image';
 
 function HeroSection() {
+    
     const slides = [
         {
             id: 1,
