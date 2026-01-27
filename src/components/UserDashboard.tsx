@@ -19,7 +19,7 @@ async function UserDashboard() {
     <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6'>
       {plainGrocery.map((item: any)=>(
     <GroceryItemCard 
-    key={item.id}
+    key={item._id.toString()}
     item={item}/>
    ))}
    </div>

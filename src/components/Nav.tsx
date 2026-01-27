@@ -1,18 +1,18 @@
 'use client'
-import { Boxes, ClipboardCheck, Cross, LogOut, Menu, Package, PlusCircle, Search, ShoppingCartIcon, User, X } from 'lucide-react';
-import mongoose from 'mongoose';
-import Link from 'next/dist/client/link';
+import { Boxes, ClipboardCheck, LogOut, Menu, Package, PlusCircle, Search, ShoppingCartIcon, User, X } from 'lucide-react';
+
+import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react'
 import Image from 'next/image';
 import { AnimatePresence,motion } from 'framer-motion';
-import { sign } from 'crypto';
+
 import { signOut } from 'next-auth/react';
 import { createPortal } from 'react-dom';
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
 
 interface IUser {
-    _id?:mongoose.Types.ObjectId;
+    _id?:string;
     name: string;
     email: string;
     password?: string;
@@ -61,7 +61,7 @@ function Nav({user}:{user:IUser}) {
         </div>
         <div className='flex items-center gap-3 p-3 mt-3 rounded-xl bg-white/10 hover:bg-white/19
         transition-all shadow-inner'>
-          <div className='relative w-10 h-10 rounded-full overflow-hidden'> {user?.image ? (<Image src={user.image} alt="User" fill className='object-cover rounded-full'/>):(<User/>)}</div>
+          <div className='relative w-10 h-10 rounded-full overflow-hidden'> {user.image ? (<Image src={user.image} alt="User" fill className='object-cover rounded-full'/>):(<User/>)}</div>
           <div>
             <h2 className='text-lg font-semibold text-white'>{user.name}</h2>
             <p className="text-xs text-green-200 capitalize tracking-wide">{user.role}</p>
@@ -121,7 +121,7 @@ function Nav({user}:{user:IUser}) {
          justify-center shadow-md hover:scale-105 transition'>
         <ShoppingCartIcon className='text-green-600 w-6 h-6'/>
         <span className='absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex
-        items-center justify-center rounded-full font-semibold shadow'>{cartData?.length || 0}</span>
+        items-center justify-center rounded-full font-semibold shadow'>{cartData.length}</span>
         </Link></>}
           {user.role =="admin" && <>
           <div className='hidden md:flex items-center gap-4'>

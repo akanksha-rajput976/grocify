@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 function CartPage() {
     const {cartData}=useSelector((state:RootState)=>state.cart);
   return (
-    <div className='w-[95%] sm:w-[90%] md:w-[80%] mx-auto mt-80 mb-24 relative'>
+    <div className='w-[95%] sm:w-[90%] md:w-[80%] mx-auto mt-8 mb-24 relative'>
         <Link href={"/"} className='absolute -top-2 left-0 flex items-center gap-2 text-green-700 hover:text-green-800 font-medium transition-all'>
         <ArrowLeft size={20}/>
         <span className='hidden sm:inline'>Back to Home</span>
@@ -35,9 +35,9 @@ function CartPage() {
     </motion.div>
          ):(
           <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
-            <div>
+              <div className='lg:col-span-2 space-y-5'>
               <AnimatePresence>
-                {cartData.map((item, index)=>(
+                {cartData.map((item,index)=>(
                   <motion.div
                   key={index}
                   initial={{opacity:0,y:30}}
@@ -59,26 +59,21 @@ function CartPage() {
                     <div className='mt-4 sm:mt-0 sm:ml-4 flex-1 text-center sm:text-left'>
                     <h3 className='text-base sm:text-lg font-semibold text-gray-800 line-clamp-1'>{item.name}</h3>
                     <p className='text-xs sm:text-sm text-gray-500'>{item.unit}</p>
-                    <p className='text-green-700 font-bold mt-1 text-sm sm:text-base'>{Number(item.price) * (item.quantity ?? 0)}</p>
+                    <p className='text-green-700 font-bold mt-1 text-sm sm:text-base'>₹{Number(item.price) * (item.quantity )}</p>
 
                     </div>
+                    <div className='flex items-center justify-center sm:justify-end gap-3 mt-3 sm:mt-0 '>
 
-
+                    </div>
                   </motion.div>
                 ))}
-
-
-
               </AnimatePresence>
               </div>
-
-
           </div>
-
          )}
-
     </div>
   )
 }
 
 export default CartPage
+ 

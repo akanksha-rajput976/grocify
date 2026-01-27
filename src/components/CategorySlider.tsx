@@ -34,7 +34,7 @@ const [showRight, setShowRight] = useState(false)
         const {scrollWidth,clientWidth,scrollLeft}=scrollRef.current;
         
         setShowLeft(scrollLeft>0);
-        setShowRight(scrollLeft + clientWidth < scrollWidth-5);
+        setShowRight(scrollLeft + clientWidth <= scrollWidth-5);
            
     }  
     
@@ -47,7 +47,7 @@ const [showRight, setShowRight] = useState(false)
             }else{
                 scrollRef.current.scrollBy({left:300,behavior:"smooth"})
             }   
-        },3000);
+        },2000);
         return()=>clearInterval(autoscroll);
      },[])
     //   useEffect(()=>{

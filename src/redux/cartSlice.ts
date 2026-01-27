@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import mongoose from "mongoose";
+
 interface IGrocery{
-    _id?:mongoose.Types.ObjectId;
+    _id:string
     name:string;
     category:string;
     price:string;
     unit:string;
-    quantity?:number;
+    quantity:number;
     image:string;
     createdAt?:Date;
     updatedAt?:Date
@@ -25,16 +25,16 @@ const cartSlice = createSlice({
     addToCart:(state, action:PayloadAction<IGrocery>)=>{
         state.cartData.push(action.payload);
     },
-    increaseQuantity:(state, action:PayloadAction<mongoose.Types.ObjectId>)=>{
+    increaseQuantity:(state, action:PayloadAction<string>)=>{
         const item=state.cartData.find(i=>i._id==action.payload);
         if(item){
-            item.quantity=(item.quantity ?? 0)+ 1;
+            item.quantity=item.quantity + 1;
         }
     }
     ,
-    decreaseQuantity:(state, action:PayloadAction<mongoose.Types.ObjectId>)=>{
+    decreaseQuantity:(state, action:PayloadAction<string>)=>{
         const item=state.cartData.find(i=>i._id==action.payload);
-        if(item && item?.quantity && item.quantity>1){
+        if(item?.quantity && item.quantity>1){
             item.quantity= item.quantity - 1;
         }else{
             state.cartData=state.cartData.filter(i=>i._id!==action.payload);
@@ -45,3 +45,6 @@ const cartSlice = createSlice({
 
 export const {addToCart,increaseQuantity,decreaseQuantity}=cartSlice.actions;
 export default cartSlice.reducer;
+
+
+    

@@ -1,5 +1,5 @@
 'use client';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'motion/react';
 //import { sub } from 'framer-motion/client';
 import { Leaf, ShoppingBasket, Smartphone, Truck } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
