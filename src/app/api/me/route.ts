@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import User from "@/models/user.model";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(params:NextRequest){
+export async function GET(req:NextRequest){
     try{
         const session=await auth()
         if(!session || !session.user){
