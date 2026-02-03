@@ -146,6 +146,41 @@ paymentMethod
 console.log(error)
       }
     }
+    const handleOnlinePayment=async()=>{
+      if(!position){
+        return null
+      }
+      try{
+        const result=await axios.post("/api/user/payment",{
+          userId:userData?._id,
+          items:cartData.map(item=>({
+            grocery:item._id ,
+            name:item.name,
+            price:item.price,
+            unit:item.unit,
+            quantity:item.quantity,
+            image:item.image
+          })),
+          totalAmount:finalTotal,
+          address:{
+            fullName:address.fullName,
+            mobile:address.mobile,
+            city:address.city,
+            state:address.state,
+            fullAddress:address.fullAddress,
+            pincode:address.pincode,
+            latitude:position[0],
+            longitude:position[1]
+          },
+           paymentMethod
+      
+        })
+        window.location.href=result.data.url
+
+      }catch(error){
+            console.log(error)
+      }
+    }
 
     
     
@@ -404,7 +439,7 @@ console.log(error)
         if(paymentMethod=="cod"){
           handleCod()
         }else{
-          null
+          handleOnlinePayment()
         }
        }}
        >

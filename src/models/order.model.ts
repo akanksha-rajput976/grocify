@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 
-interface IOrder{
+ export interface IOrder{
   _id?:mongoose.Types.ObjectId
   user:mongoose.Types.ObjectId
   items:[
@@ -10,7 +10,8 @@ interface IOrder{
     unit:string,
     image:string,
     quantity:number
-  ]
+  ],
+    isPaid:boolean,
   totalAmount:number,
   paymentMethod:"cod" | "online"
   address:{
@@ -24,6 +25,8 @@ interface IOrder{
     longitude:number
     
   }
+  assignment?: mongoose.Types.ObjectId
+  assignedDeliveryBoy?: mongoose.Types.ObjectId
   status:"pending" | "out of delivery" | "delivered",
   createdAt?:Date
   updatedAt?:Date
@@ -53,6 +56,10 @@ const orderSchema=new mongoose.Schema<IOrder>({
         enum:["cod","online"],
         default:"cod"
     },
+    isPaid:{
+        type:Boolean,
+        default:false
+    },
     totalAmount:Number,
     address:{
         fullName:String,
@@ -63,6 +70,17 @@ const orderSchema=new mongoose.Schema<IOrder>({
     fullAddress:String,
     latitude:Number,
     longitude:Number
+    },
+    assignment:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"DeliveryAssignment",
+        default:null
+    },
+     
+    assignedDeliveryBoy:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"
+        
     },
     status:{
         type:String,
